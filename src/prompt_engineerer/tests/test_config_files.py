@@ -60,7 +60,18 @@ def test_bootstrap_templates_preserve_existing(root):
     assert (root / "user/seed_prompt.md").read_bytes() == before["seed_prompt.md"]
 
 
-@pytest.mark.parametrize("raw", [b"", b" \n\t", b"\xef\xbb\xbf  ", b"\xff", b"x" * 120001])
+# Pytest puts the node ID into PYTEST_CURRENT_TEST. Explicit IDs keep the large
+# payload out of that environment variable (Windows limit: 32,767 characters).
+@pytest.mark.parametrize(
+    "raw",
+    [
+        pytest.param(b"", id="empty"),
+        pytest.param(b" \n\t", id="whitespace"),
+        pytest.param(b"\xef\xbb\xbf  ", id="bom-whitespace"),
+        pytest.param(b"\xff", id="invalid-utf8"),
+        pytest.param(b"x" * 120001, id="oversized-120001-bytes"),
+    ],
+)
 def test_seed_rejections(root, raw):
     (root / "user/seed_prompt.md").write_bytes(raw)
     with pytest.raises(AppError):

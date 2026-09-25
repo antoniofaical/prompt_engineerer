@@ -357,6 +357,7 @@ saída é redirecionada. Não há porcentagens estimadas fictícias.
 | Configuração inválida | Veja o campo informado; confira tipo, aspas e posição de `[target_ai]`. |
 | `.venv` incompleto/incompatível | Renomeie o diretório e execute o bootstrap com Python compatível. |
 | Ruff/testes falharam | Consulte a saída; o bootstrap não modifica o código para forçar aprovação. |
+| Pytest imprime muitos `x` e `environment variable is longer than 32767 characters` | Atualize o repositório e rode o bootstrap novamente. A versão inicial gerava um ID de teste enorme, excedendo o limite de `PYTEST_CURRENT_TEST` no Windows. Os casos agora usam IDs curtos; não altere sua API key ou o limite do seed. |
 | PowerShell bloqueia script | Se permitido pela política da sua máquina, use `Set-ExecutionPolicy -Scope Process RemoteSigned`. |
 | Comando não encontrado | Ative o venv ou use o caminho completo do Python dele. |
 | Instalação fora do clone | Execute o bootstrap dentro do checkout para instalar em modo editável. |
@@ -400,5 +401,7 @@ que possível, avalie sem saber qual resposta veio do prompt otimizado. A execu�
 desses casos com modelos reais é manual e pode gerar custos adicionais.
 
 Validação desta entrega: testes e bootstrap executados em Linux/Python 3.12.
+A suíte inclui uma regressão que executa os casos de seed sob uma simulação do
+limite de tamanho de variável de ambiente do Windows, cobrindo setup e teardown.
 PowerShell e macOS exigem confirmação nos respectivos ambientes. Não foi feita
 avaliação real com a API por ausência de credencial no ambiente de implementação.
