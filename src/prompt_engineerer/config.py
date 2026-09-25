@@ -1,10 +1,10 @@
-import os
 import tomllib
 from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
+from .credentials import resolve_api_key
 from .errors import AppError
 
 
@@ -60,10 +60,4 @@ def load_config(root: Path) -> UserConfig:
 
 
 def read_api_key(config: UserConfig) -> str:
-    key = os.environ.get(config.api_key_env_var, "").strip()
-    if not key:
-        raise AppError(
-            f"Variável {config.api_key_env_var} ausente ou vazia neste processo. "
-            "Configure-a no sistema e reabra o terminal, se necessário. Veja o README."
-        )
-    return key
+    return resolve_api_key(config.api_key_env_var)

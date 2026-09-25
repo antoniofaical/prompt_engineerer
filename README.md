@@ -73,9 +73,18 @@ que ele seja considerado durante a geração.
 
 ## Credencial nas variáveis de ambiente do sistema
 
-`api_key_env_var` contém **o nome da variável**, nunca a chave. O Python lê o valor
-herdado pelo processo. Não há leitura de `.env`, registro do valor no console ou
-armazenamento da chave no repositório.
+`api_key_env_var` contém **o nome da variável**, nunca a chave. A ferramenta procura
+automaticamente nessa ordem: ambiente do processo → variáveis persistentes do
+usuário Windows → variáveis persistentes do sistema Windows. Valores vazios são
+ignorados; o primeiro valor preenchido prevalece. Assim, uma variável cadastrada
+no Windows depois de abrir o terminal é reconhecida sem reiniciar o VS Code.
+Se já houver um valor preenchido no processo, ele continua tendo prioridade.
+
+Essa mesma busca vale para geração, bootstrap e `--check`; não é necessário fazer
+checagem manual antes de usar. Não há leitura de `.env`, registro do valor no
+console, alteração das variáveis do Windows ou armazenamento da chave no projeto.
+Em Linux/macOS, usa-se o ambiente exportado ao processo: esses sistemas não têm
+o mesmo cadastro central de variáveis persistentes do Windows.
 
 ### Windows
 
@@ -99,8 +108,9 @@ Para persistir no perfil de usuário, após o comando anterior:
 ```
 
 Também é possível criar `OPENAI_API_KEY` nas **Variáveis de Ambiente do Usuário**
-do Windows. Reabra o terminal e, quando necessário, o VS Code para que novos
-processos recebam a variável. Não é necessário administrador para a variável do usuário.
+do Windows. O programa consulta esse cadastro automaticamente quando a variável
+está ausente/vazia no processo, sem exigir reabrir o terminal ou o VS Code.
+Não é necessário administrador para cadastrar a variável do usuário.
 
 ### Linux / macOS
 
@@ -349,7 +359,8 @@ saída é redirecionada. Não há porcentagens estimadas fictícias.
 | Situação | Como resolver |
 |---|---|
 | Código 2 no bootstrap/`--check` | Ambiente preparado, mas há pendências locais; leia `[PENDENTE]`. |
-| Variável ausente | Confira o nome em `api_key_env_var` e o ambiente do processo. Reabra terminal/IDE após mudança persistente. |
+| Variável ausente | No Windows, a busca automática já consultou processo, usuário e sistema: cadastre a variável com o nome configurado ou corrija `api_key_env_var`. Em Linux/macOS, exporte a variável no ambiente que executa o programa. |
+| Credencial antiga no processo | O valor preenchido no processo tem prioridade. Atualize/remova essa variável da sessão para usar o valor persistente atualizado. |
 | Chave presente, HTTP 401/403 | Verifique a credencial e acesso ao modelo da OpenAI. Presença não comprova autenticação. |
 | HTTP 429 | Confira quota, créditos e limites de requisições. As tentativas são limitadas. |
 | HTTP 400/404 | Verifique compatibilidade do modelo gerador, endpoint e SDK. |
@@ -403,5 +414,7 @@ desses casos com modelos reais é manual e pode gerar custos adicionais.
 Validação desta entrega: testes e bootstrap executados em Linux/Python 3.12.
 A suíte inclui uma regressão que executa os casos de seed sob uma simulação do
 limite de tamanho de variável de ambiente do Windows, cobrindo setup e teardown.
+Também há testes com Registro simulado para descoberta automática da credencial,
+precedência de escopos, erros de acesso e integração com preflight e execução.
 PowerShell e macOS exigem confirmação nos respectivos ambientes. Não foi feita
 avaliação real com a API por ausência de credencial no ambiente de implementação.

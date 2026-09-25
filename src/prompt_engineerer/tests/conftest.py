@@ -2,7 +2,15 @@ from contextlib import contextmanager
 
 import pytest
 
+from prompt_engineerer import credentials
 from prompt_engineerer.files import initialize_user
+
+
+@pytest.fixture(autouse=True)
+def isolate_persistent_credentials(monkeypatch):
+    # Tests must never depend on real keys saved in the developer's Windows registry.
+    # Registry-specific tests explicitly enable the Windows branch with a fake winreg.
+    monkeypatch.setattr(credentials, "WINDOWS", False)
 
 
 class FakeUI:
