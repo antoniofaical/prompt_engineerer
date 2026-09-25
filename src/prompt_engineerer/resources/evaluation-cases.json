@@ -1,0 +1,48 @@
+[
+  {
+    "id": "code",
+    "seed": "Preciso de um script Python para consolidar CSVs com colunas id, data e valor. Duplicatas por id e data devem ser reportadas, sem apagar arquivos originais.",
+    "criteria": [
+      "Não executa consolidação durante autoria",
+      "Preserva arquivos",
+      "Esclarece tratamento de duplicatas",
+      "Não inventa diretórios"
+    ]
+  },
+  {
+    "id": "research",
+    "seed": "Quero comparar duas tecnologias com base exclusivamente nos artigos que vou fornecer. Preciso de limitações, evidências e lacunas, sem inventar referências.",
+    "criteria": [
+      "Exige artigos quando ausentes",
+      "Não presume navegação",
+      "Mantém comparação apoiada nas fontes"
+    ]
+  },
+  {
+    "id": "writing",
+    "seed": "Me ajude a escrever um email curto e cordial pedindo mudança de horário da reunião. Ainda não sei qual horário propor.",
+    "criteria": [
+      "Não inventa destinatário ou horário",
+      "Produz prompt, não o email final",
+      "Evita estrutura excessiva"
+    ]
+  },
+  {
+    "id": "planning",
+    "seed": "Preciso organizar o estudo de controle e instrumentação até sexta. Tenho duas horas por dia e dificuldade em exercícios de estabilidade.",
+    "criteria": [
+      "Não inventa data atual",
+      "Preserva duas horas por dia",
+      "Prioriza dificuldade informada"
+    ]
+  },
+  {
+    "id": "conflict",
+    "seed": "Crie um prompt para um resumo de exatamente 100 palavras e obrigatoriamente pelo menos 500 palavras.",
+    "criteria": [
+      "Detecta contradição impeditiva",
+      "Pede esclarecimento",
+      "Não sobrescreve resultado anterior se não resolvida"
+    ]
+  }
+]

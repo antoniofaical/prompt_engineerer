@@ -1,0 +1,30 @@
+# Credencial do GERADOR: nome da variável de ambiente do sistema, nunca a chave.
+api_key_env_var = "OPENAI_API_KEY"
+
+# Destino do prompt: "chat", "api_user" ou "api_system". Veja exemplos no README.
+target_interface = "chat"
+
+# "auto" acompanha o seed. Ou informe "pt-BR", "en", "es", etc.
+output_language = "auto"
+
+# Rodadas de perguntas (0–10); cada rodada contém até 3 perguntas.
+# 0 desativa perguntas. Contradições impeditivas exigirão corrigir os arquivos.
+max_clarification_rounds = 3
+
+# Correções após a revisão inicial (0–5). 0 mantém a revisão, sem correções.
+max_revision_rounds = 2
+
+# Capacidades da IA DESTINATÁRIA. Não habilitam ferramentas no gerador.
+# Omitida/comentada = desconhecidas; [] = nenhuma.
+# Opções: "web_browsing", "code_execution", "file_reading".
+# target_tools = ["web_browsing", "file_reading"]
+
+# Em TOML, os campos abaixo pertencem a target_ai até o fim da tabela.
+# Mantenha as configurações gerais ACIMA deste cabeçalho.
+[target_ai]
+# Provedor da IA que RECEBERÁ o prompt. Vazio = não especificado.
+# Exemplos: "openai", "anthropic", "google", "meta", "mistral", "xai".
+provider = ""
+# Modelo destinatário, se conhecido. Vazio = não especificado.
+# Exemplo: "gpt-5-mini". Não é o modelo que executa este programa.
+model = ""

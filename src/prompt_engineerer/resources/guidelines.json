@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "reviewed_on": "2026-09-25",
+  "rules": [
+    {
+      "id": "preserve_intent",
+      "always": true,
+      "providers": [],
+      "when": "Toda transformação",
+      "instruction": "Preserve objetivo, fatos e restrições fornecidos; não acrescente exigências sem apoio no pedido.",
+      "exceptions": "Sugestões úteis podem ser oferecidas fora do prompt; não viram requisitos silenciosamente.",
+      "source": "project-design"
+    },
+    {
+      "id": "clear_deliverable",
+      "always": true,
+      "providers": [],
+      "when": "Toda demanda",
+      "instruction": "Declare a ação e a entrega esperada em linguagem direta; use apenas estrutura necessária.",
+      "exceptions": "Não imponha um formato que contrarie o usuário.",
+      "source": "openai-guide"
+    },
+    {
+      "id": "honest_gaps",
+      "always": true,
+      "providers": [],
+      "when": "Dados ausentes ou incertos",
+      "instruction": "Diferencie informação fornecida de lacunas; não preencha fatos por suposição.",
+      "exceptions": "Criação ficcional é permitida quando solicitada e identificada.",
+      "source": "claude-blog-2026"
+    },
+    {
+      "id": "capabilities",
+      "always": true,
+      "providers": [],
+      "when": "Instruções envolvem ferramentas",
+      "instruction": "Atribua somente capacidades declaradas. Ferramentas desconhecidas exigem instrução condicional ou alternativa realizável.",
+      "exceptions": "Um nome de provedor não comprova acesso a ferramentas.",
+      "source": "project-design"
+    },
+    {
+      "id": "relevant_context",
+      "always": false,
+      "providers": [],
+      "when": "Há documentos ou contexto extenso",
+      "instruction": "Inclua contexto relevante e delimite instruções, dados e exemplos; remova redundância sem perder requisitos.",
+      "exceptions": "Não trunque fatos essenciais nem use somente referências a um seed que o destinatário não verá.",
+      "source": "anthropic-context-engineering"
+    },
+    {
+      "id": "examples",
+      "always": false,
+      "providers": [],
+      "when": "Exemplos ajudam a demonstrar formato ou critérios difíceis de descrever",
+      "instruction": "Use exemplos pertinentes e variados se disponíveis; não imponha quantidade fixa.",
+      "exceptions": "Não invente exemplos factuais atribuídos ao usuário. Exemplos hipotéticos devem ser identificados.",
+      "source": "anthropic-best-practices"
+    },
+    {
+      "id": "purpose",
+      "always": false,
+      "providers": [],
+      "when": "A justificativa de uma restrição ajuda a interpretação",
+      "instruction": "Explique brevemente a finalidade da instrução.",
+      "exceptions": "Omita justificativas redundantes ou especulativas.",
+      "source": "anthropic-best-practices"
+    },
+    {
+      "id": "checkable_quality",
+      "always": false,
+      "providers": [],
+      "when": "O pedido exige resultado verificável",
+      "instruction": "Expresse os critérios de sucesso fornecidos e como verificar o resultado.",
+      "exceptions": "Não converta uma tarefa simples em avaliação extensa.",
+      "source": "anthropic-overview"
+    },
+    {
+      "id": "clarify_material",
+      "always": false,
+      "providers": [],
+      "when": "A ambiguidade muda a entrega",
+      "instruction": "Faça perguntas direcionadas ou indique os dados necessários antes da execução pelo destinatário.",
+      "exceptions": "Não pergunte o que já foi respondido nem bloqueie por escolhas menores.",
+      "source": "white-pattern-catalog"
+    },
+    {
+      "id": "task_steps",
+      "always": false,
+      "providers": [],
+      "when": "Há dependências entre partes de uma tarefa complexa",
+      "instruction": "Organize etapas verificáveis dentro do fluxo disponível.",
+      "exceptions": "Não exija infraestrutura de agentes ou chamadas adicionais que o usuário não tem.",
+      "source": "project-design"
+    },
+    {
+      "id": "evidence",
+      "always": false,
+      "providers": [],
+      "when": "O usuário solicita pesquisa, comparação factual ou análise documental",
+      "instruction": "Solicite evidências verificáveis e distinção entre fatos, inferências e incerteza, respeitando acesso real a fontes.",
+      "exceptions": "Não peça URLs inventadas nem afirme consulta à internet sem ferramenta.",
+      "source": "project-design"
+    },
+    {
+      "id": "role_perspective",
+      "always": false,
+      "providers": [],
+      "when": "Uma perspectiva profissional muda critérios úteis da tarefa",
+      "instruction": "Defina a perspectiva e suas responsabilidades de modo concreto.",
+      "exceptions": "Não invente credenciais, experiência pessoal ou persona ornamental.",
+      "source": "white-pattern-catalog"
+    },
+    {
+      "id": "requirements_phase",
+      "always": false,
+      "providers": [],
+      "when": "A tarefa é de engenharia de requisitos",
+      "instruction": "Adapte perguntas, contexto e validação à fase de requisitos descrita pelo usuário.",
+      "exceptions": "Não generalize achados desse domínio a todas as tarefas; revisão por IA não prova validade dos requisitos.",
+      "source": "re-systematic-review"
+    },
+    {
+      "id": "claude_delimiters",
+      "always": false,
+      "providers": [
+        "anthropic"
+      ],
+      "when": "O prompt mistura instruções, documentos e exemplos",
+      "instruction": "Considere tags descritivas ou cabeçalhos consistentes para delimitar blocos.",
+      "exceptions": "XML não é obrigatório; preserve Markdown simples quando suficiente.",
+      "source": "anthropic-best-practices"
+    },
+    {
+      "id": "openai_role",
+      "always": false,
+      "providers": [
+        "openai"
+      ],
+      "when": "O destino é API",
+      "instruction": "Diferencie instruções duradouras de entradas da execução; respeite o papel de mensagem escolhido pela aplicação.",
+      "exceptions": "O texto não altera a hierarquia da API. api_system pode exigir mapeamento para developer conforme o modelo.",
+      "source": "openai-guide"
+    },
+    {
+      "id": "reasoning_evidence",
+      "always": false,
+      "providers": [
+        "openai"
+      ],
+      "when": "A tarefa envolve resolução de problemas",
+      "instruction": "Solicite resposta justificada e verificação objetiva; prefira objetivos claros a roteiros de raciocínio interno.",
+      "exceptions": "Cálculos e demonstrações verificáveis continuam apropriados quando necessários.",
+      "source": "openai-reasoning"
+    }
+  ]
+}
