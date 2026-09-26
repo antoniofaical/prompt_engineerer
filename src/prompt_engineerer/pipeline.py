@@ -32,16 +32,26 @@ def optimize(root: Path, config: UserConfig, provider, ui) -> str:
         for round_number in range(config.max_clarification_rounds):
             if not analysis.questions:
                 break
-            ui.say(
-                f"[PERGUNTAS] Rodada {round_number + 1}/{config.max_clarification_rounds}. "
-                "Enter pula uma pergunta; /fim encerra os esclarecimentos."
-            )
+            if round_number == 0:
+                ui.say(
+                    "[PERGUNTAS] Enter pula uma pergunta; /fim encerra os esclarecimentos; "
+                    "Ctrl+C cancela."
+                )
             stop = False
             answered = False
             # Ask blocking questions first, without silently dropping any unresolved conflict.
-            questions = sorted(analysis.questions, key=lambda q: not q.blocking)
-            for question in questions[:MAX_QUESTIONS_PER_ROUND]:
-                answer = ui.ask(f"{question.text}\nMotivo: {question.reason}")
+            questions = sorted(analysis.questions, key=lambda q: not q.blocking)[
+                :MAX_QUESTIONS_PER_ROUND
+            ]
+            for question_number, question in enumerate(questions, start=1):
+                answer = ui.ask(
+                    question.text,
+                    reason=question.reason,
+                    title=(
+                        f"Rodada {round_number + 1}/{config.max_clarification_rounds} · "
+                        f"Pergunta {question_number}/{len(questions)}"
+                    ),
+                )
                 if answer.casefold() == "/fim":
                     stop = True
                     break

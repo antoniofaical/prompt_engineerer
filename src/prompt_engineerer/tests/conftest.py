@@ -26,7 +26,7 @@ class FakeUI:
         self.messages.append(name)
         yield
 
-    def ask(self, question):
+    def ask(self, question, **kwargs):
         self.messages.append(question)
         return next(self.answers)
 

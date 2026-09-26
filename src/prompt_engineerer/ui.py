@@ -2,6 +2,8 @@ from contextlib import contextmanager
 from threading import Event, Thread
 
 from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
 
 from .errors import AppError
 
@@ -11,7 +13,17 @@ class UI:
         self.console = Console(markup=False, highlight=False)
 
     def say(self, message: str):
-        self.console.print(message)
+        text = Text(message)
+        if message.startswith("[") and "]" in message:
+            label = message[: message.index("]") + 1]
+            style = {
+                "[ETAPA]": "bold blue",
+                "[OK]": "green",
+                "[ATIVIDADE]": "dim",
+                "[PERGUNTAS]": "bold cyan",
+            }.get(label, "bold")
+            text.stylize(style, 0, len(label))
+        self.console.print(text)
 
     @contextmanager
     def stage(self, name: str):
@@ -35,12 +47,21 @@ class UI:
                 thread.join()
         self.say(f"[OK] {name}")
 
-    def ask(self, question: str) -> str:
-        self.say(question)
+    def ask(self, question: str, *, reason: str = "", title: str = "Pergunta") -> str:
+        body = Text(question, style="bold")
+        if reason:
+            body.append("\n\nMotivo: " + reason, style="not bold dim")
+        self.console.print()
+        self.console.print(
+            Panel(body, title=Text(title), title_align="left", border_style="cyan", padding=(1, 2))
+        )
+        self.console.print(Text("Sua resposta: ", style="bold green"), end="")
         try:
-            return input("> ").strip()
+            return input().strip()
         except EOFError as exc:
             raise AppError(
                 "Entrada interativa indisponível. Configure max_clarification_rounds = 0 "
                 "ou execute em um terminal interativo."
             ) from exc
+        finally:
+            self.console.print()

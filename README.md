@@ -299,8 +299,15 @@ Boas práticas:
 
 ## Esclarecimento, revisão e custos
 
-Cada pergunta mostra uma razão curta. Enter pula uma pergunta; `/fim` encerra os
-esclarecimentos; Ctrl+C cancela. Respostas ficam em memória apenas naquela execução.
+Cada pergunta aparece em um bloco com a rodada e a posição da pergunta naquela
+rodada. A pergunta fica em destaque, e o `Motivo` permanece visível com menor
+ênfase. A entrada `Sua resposta:` aparece fora do bloco, separada por espaçamento
+e com uma cor própria quando o terminal permite cores. Os rótulos e as bordas
+também distinguem os elementos quando não há cores.
+
+As instruções aparecem uma vez, no início dos esclarecimentos: Enter pula uma
+pergunta; `/fim` encerra os esclarecimentos; Ctrl+C cancela. A resposta continua
+sendo enviada com Enter. Respostas ficam em memória apenas naquela execução.
 Lacunas comuns podem virar instruções condicionais ou pedidos de informação para
 a IA destinatária. Contradições impeditivas não resolvidas bloqueiam a gravação.
 
@@ -353,6 +360,8 @@ Todas as etapas exibem início e conclusão. Comandos demorados do bootstrap
 mostram saída e aviso de atividade a cada 10 segundos; chamadas da aplicação
 mostram spinner em terminal interativo e mensagens a cada 15 segundos quando a
 saída é redirecionada. Não há porcentagens estimadas fictícias.
+Os registros de início, conclusão e atividade são mantidos no histórico do
+console; os blocos de perguntas não limpam a tela nem substituem esses registros.
 
 ## Solução de problemas
 
